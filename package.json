@@ -11,7 +11,7 @@
     "lint:fix": "oxlint . --fix --cache",
     "format": "oxfmt src/",
     "prepare": "husky",
-    "commit": "git-cz"
+    "commit": "git add . && git-cz"
   },
   "dependencies": {
     "pinia": "^3.0.4",
@@ -28,6 +28,7 @@
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/tsconfig": "^0.9.0",
     "commitizen": "^4.3.1",
+    "conventional-changelog-cli": "^5.0.0",
     "cz-git": "^1.12.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",

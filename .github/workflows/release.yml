@@ -1,5 +1,6 @@
 # .github/workflows/release.yml
 name: Release
+
 on:
   push:
     branches: [master]
@@ -7,26 +8,31 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # 允许推送代码
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 需要完整历史用于版本分析
+          persist-credentials: true # 确保可以推送
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10 # 或指定具体版本如 9.0.0
+          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: 'pnpm' # 启用 pnpm 缓存
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile # 使用 pnpm 替代 npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Run Semantic Release
+      - name: Generate Changelog
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
